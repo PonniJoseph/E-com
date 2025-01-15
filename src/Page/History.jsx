@@ -37,8 +37,8 @@ const removeHistory = async(id)=>{
   return (
     <div style={{paddingTop:'100px'}}>
         <div className='d-flex justify-content-between container'>
-            <h3>Watch Product Details</h3>
-            <Link to={'/additem'}>Back..</Link>
+            <h3>List Of Cards</h3>
+            <Link to={'/product'}>Back Product</Link>
         </div>
         <table className='container my-5 table'>
             <thead>
@@ -64,7 +64,7 @@ const removeHistory = async(id)=>{
                      <button onClick={()=>removeHistory(imageDetail?.id)} className='btn '> <i class="fa-solid fa-trash text-danger "></i></button> </td>
                 </tr>
                  )):
-                 <div className='fw-bolder text-danger fs-5'>You didn't view any product!!!</div>
+                 <div className='fw-bolder text-danger fs-5'>You didn't add any product!!!</div>
                 }
             </tbody>
         </table>

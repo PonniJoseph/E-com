@@ -40,7 +40,7 @@ const Product = () => {
         allImage?.length>0?
         allImage.map(image=>(
           <Col key={image?.id} sm={12} md={6} lg={3}>
-          <ViewProduct displayData={image}/>
+          <ViewProduct insideProduct={true} displayData={image}/>
           </Col>
         ))
         :

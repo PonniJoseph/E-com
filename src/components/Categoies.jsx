@@ -3,16 +3,17 @@ import { Button, FloatingLabel, Form, Modal } from 'react-bootstrap'
 import { deleteCategoryAPI, getAllCategoryAPI, removeImageAPI, saveCategoriesAPI, updateCategoryAPI } from '../service/allAPI';
 import ViewProduct from './ViewProduct';
 
-const Categoies = ( {setDeleteImageView}) => {
+const Categoies = ( {setDeleteImageView,deleteResponeFromView}) => {
 
-  const [categoryName,setCategoryName]=useState("")
-  const [show, setShow] = useState(false);
+  
 const [allCategories,setAllCategories]=useState([])
+const [categoryName,setCategoryName]=useState("")
+const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(()=>{
     getAllCategories()
-  },[])
+  },[deleteResponeFromView])
 
 const handleSaveCategory = async()=>{
   if(categoryName){
@@ -61,27 +62,33 @@ const dragOverCategory = (e)=>{
   e.preventDefault()
 }
 
-const imageCardDropOverCategory=async(e,categoryDetails)=>{
+const imageCardDropOverCategory= async(e,categoryDetails)=>{
   console.log("inside ImageCardDropOverCategory");
   // console.log(categoryDetails);
-  
  const imageDetails= JSON.parse( e.dataTransfer.getData("imageDetails"))
  console.log(imageDetails);
 
 //  update category by add image
 categoryDetails.allImage.push(imageDetails)
 console.log(categoryDetails);
-categoryDetails.allImage.push(imageDetails)
-console.log(categoryDetails);
+// categoryDetails.allImage.push(imageDetails)
+// console.log(categoryDetails);
 
 // Api call to update the Category
-   await updateCategoryAPI(categoryDetails)
+ await  updateCategoryAPI(categoryDetails)
   getAllCategories()
   const result =await removeImageAPI(imageDetails?.id)
   setDeleteImageView(result)
 
 
  
+}
+
+const categoryImageDragStarted=(e,dragImageDetails,categoryDetails)=>{
+  console.log("inside categoryImageDragStarted");
+  let dragData ={image:dragImageDetails,categoryDetails}
+  e.dataTransfer.setData("dragData",JSON.stringify(dragData))
+
 }
 
 
@@ -95,10 +102,13 @@ console.log(categoryDetails);
     {/* displaying all categories */}
     <div className='container-fluid mb-3'>
       {/* single category view */}
+
     {
-      allCategories?.length>0?
+
+      allCategories?.length>0 ?
       allCategories?.map(categoryDetails=>(
-        <div droppable="true" onDragOver={dragOverCategory} onDrop={e=>imageCardDropOverCategory(e,categoryDetails)} key={categoryDetails?.categoryName} className='border rounded p-3 mb-3 mt-3'>
+        <div droppable="true" onDragOver={dragOverCategory} onDrop={e=>imageCardDropOverCategory(e,categoryDetails)} 
+        key={categoryDetails?.id} className='border rounded p-3 mb-3 mt-3'>
       <div className="d-flex justify-content-between">
         <h5>{categoryDetails?.categoryName}</h5>
         <button onClick={()=>removeCategory(categoryDetails?.id)} className='btn '> <i class="fa-solid fa-trash text-danger "></i></button>
@@ -108,8 +118,8 @@ console.log(categoryDetails);
            {
             categoryDetails?.allImage?.length>0 &&
             categoryDetails?.allImage?.map(image=>(
-              <div key={image?.id} className="col-lg-4">
-                <ViewProduct displayData={image}/>
+              <div  key={image?.id} className="col-lg-4" draggable={true} onDragStart={e=>categoryImageDragStarted(e,image,categoryDetails)}>
+                <ViewProduct insideCategory={true} displayData={image}/>
               </div>
             ))
            }

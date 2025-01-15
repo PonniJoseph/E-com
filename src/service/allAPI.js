@@ -58,5 +58,16 @@ export const deleteCategoryAPI =async(id)=>{
 // only particulare change a value by update using Put method
 
 export const updateCategoryAPI =async(categoryDetails)=>{
-    return await commonAPI(`PUT`,`${serverURL}/categories/${categoryDetails.id}`,{categoryDetails})
+    return await commonAPI(`PUT`,`${serverURL}/categories/${categoryDetails.id}`,categoryDetails)
+}
+
+//   getAllCardsAPI -get http request to http://localhost:3000/history
+export const getAllCardsAPI =async()=>{
+  return await commonAPI(`GET`,`${serverURL}/cards`,"")
+}
+
+
+// deleteCardsApi - using delete Method to http://localhost:3000/history/id
+export const deleteCardsAPI =async(id)=>{
+  return await commonAPI(`DELETE`,`${serverURL}/cards/${id}`,{})
 }

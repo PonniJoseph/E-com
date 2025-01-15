@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react'
+import { deleteCardsAPI, getAllCardsAPI } from '../service/allAPI'
+import { Link } from 'react-router-dom'
+
+Link
+const Cards = () => {
+  
+    const [allImageCards,setAllImageCards]=useState([])
+    useEffect(()=>{
+        getAllCards()
+    },[])
+    const getAllCards=async()=>{
+        try{
+         const result =await getAllCardsAPI()
+         if(result.status>=200 && result.status<300){
+           setAllImageCards(result.data)
+         }else{
+            console.log(result);
+            
+         }
+    
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+    
+    const removeCards = async(id)=>{
+        try{
+         await deleteCardsAPI(id)
+         getAllCards()
+        }catch(err){
+            console.log(err);
+            
+        }
+    }
+    
+    
+      return (
+        <div style={{paddingTop:'100px'}}>
+            <div className='d-flex justify-content-between container'>
+                <h3>List The Cards</h3>
+                
+            </div>
+            <table className='container my-5 table'>
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>Title</td>
+                        <td>Categoie</td>
+                        <td>Price</td>
+                        <td>...</td>
+                    </tr>
+                
+                </thead>
+                <tbody>
+                    {
+                        allImageCards?.length>0?
+                       allImageCards?.map((imageDetail,index)=>(
+                        <tr key={imageDetail?.id}>
+                        <td>{index+1}</td>
+                        <td>{imageDetail.caption} </td>
+                        <td>{imageDetail.categoies}</td>
+                        <td>{imageDetail.price}</td>
+                        <td >
+                         <button onClick={()=>removeCards(imageDetail?.id)} className='btn '> <i class="fa-solid fa-trash text-danger "></i></button> </td>
+                    </tr>
+                     )):
+                     <div className='fw-bolder text-danger fs-5'>You didn't card any product!!!</div>
+                    }
+                </tbody>
+            </table>
+        </div>
+      )
+  
+}
+
+export default Cards

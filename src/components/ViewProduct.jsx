@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { removeImageAPI, saveHistoryAPI } from '../service/allAPI'
 
 useState
-const ViewProduct = ({displayData,setDeleteImageResponse}) => {
+const ViewProduct = ({displayData,setDeleteImageResponse, insideCategory}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -33,8 +33,10 @@ const ViewProduct = ({displayData,setDeleteImageResponse}) => {
        
     }
   }
-  const viewImageDragStarted=(e,dragImageDetails)=>{
-    console.log("inside viewImageDragStated with imageId:"+dragImageDetails?.id);
+
+
+  const viewImageDragStarted=(e,dragImageDetails) =>{
+    console.log("inside viewImageDragStarted with imageId: "+ dragImageDetails?.id);
     //share data using event drag 
     e.dataTransfer.setData("ImageDetails",JSON.stringify(dragImageDetails))
     
@@ -51,7 +53,12 @@ const ViewProduct = ({displayData,setDeleteImageResponse}) => {
         <Card.Title className='text-center'>{displayData.caption}</Card.Title>
        <div className='d-flex justify-content-between'>
        <h5 style={{fontSize:'15px'}}>{displayData.categoies}</h5>
-       <button onClick={()=>deleteImage (displayData?.id)} className='btn '> <i class="fa-solid fa-trash text-danger "></i></button> 
+       {
+        !insideCategory && <button onClick={()=>deleteImage (displayData?.id)} className='btn '> <i class="fa-solid fa-trash text-danger "></i></button>
+         
+       }
+
+       
        </div>
 
         <Card.Text >
@@ -62,7 +69,7 @@ const ViewProduct = ({displayData,setDeleteImageResponse}) => {
         <div className='d-flex justify-content-between'>
        
        <Link to={'/wishlist'}> <button className='btn btn-danger'><i class="fa-solid fa-heart"></i></button></Link>
-       <Link to={'/cart'}> <button className='btn btn-success'><i class="fa-solid fa-cart-shopping"></i></button>
+       <Link to={'/history'}> <button className='btn btn-success'onClick={handleShow}><i class="fa-solid fa-cart-shopping"></i></button>
        </Link>
         </div>
 

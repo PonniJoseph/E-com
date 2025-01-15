@@ -6,6 +6,7 @@ import AddItem from  './Page/AddItem'
 import Header from './components/Header'
 import Footer  from './components/Footer'
 import History from './Page/History'
+import Cards from './Page/Cards'
 
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
     <Route path='/Product' element={<Product/>}/>
     <Route path='/additem' element={<AddItem/>}/>
     <Route path='/history' element={<History/>}/>
+    <Route path='/cards' element={<Cards/>}/>
+
    </Routes>
    <Footer/>
     </>

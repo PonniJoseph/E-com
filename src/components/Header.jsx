@@ -2,7 +2,7 @@ import React from 'react'
 import { Link} from 'react-router-dom'
 import logo from '../assets/logo1.png'
 import { Container, Nav, Navbar } from 'react-bootstrap'
-Nav
+import Product from '../Page/Product'
 
 
 const Header = () => {
@@ -17,7 +17,8 @@ const Header = () => {
      </Link>
       <Nav className="ms-auto ">
         <Nav.Link href="/" className='fw-semibolder'style={{color:'white'}}>Home</Nav.Link>
-        {/* <Nav.Link href="#categories" style={{color:'white'}}>Categories</Nav.Link> */}
+        <Nav.Link href="#categories" style={{color:'white'}}>Categories</Nav.Link>
+        {/* <Link to={/product}>Product</Link> */}
         <Nav.Link href="/product" style={{color:'white'}}>Product</Nav.Link>
         <Nav.Link href="/additem" style={{color:'white'}}>Add Product</Nav.Link>
       </Nav>
